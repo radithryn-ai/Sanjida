@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>For Sanjida</title>
 
 <!-- Google Font -->
@@ -102,21 +103,6 @@ p {
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
 }
 
-/* Confetti */
-@keyframes fall {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-}
-
-.confetti {
-    position: fixed;
-    top: -20px;
-    width: 6px;
-    height: 10px;
-    z-index: 9999;
-    animation-name: fall;
-    animation-timing-function: linear;
-}
 </style>
 </head>
 
@@ -155,7 +141,7 @@ intro.addEventListener("click", () => {
     setTimeout(() => {
         intro.style.display = "none";
         card.style.display = "block";
-    }, 1000);
+    }, 2000);
 });
 
 /* 15 No Messages */
@@ -176,15 +162,13 @@ let messages = [
     "This is destiny",
     "Say yes for us"
 ];
+
 let index = 0;
 
-/* Move No Button inside card only */
+/* Move No Button */
 function moveNo() {
-    const rect = card.getBoundingClientRect();
-    const btnWidth = noBtn.offsetWidth;
-    const btnHeight = noBtn.offsetHeight;
-    const x = Math.random() * (rect.width - btnWidth);
-    const y = Math.random() * (rect.height - btnHeight);
+    let x = Math.random() * (window.innerWidth - 140);
+    let y = Math.random() * (window.innerHeight - 140);
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
     noBtn.innerText = messages[index % messages.length];
@@ -194,20 +178,21 @@ function moveNo() {
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("click", moveNo);
 
-/* Confetti Effect */
-function createConfetti() {
-    const confettiCount = 100;
-    for (let i = 0; i < confettiCount; i++) {
-        const confetti = document.createElement('div');
-        confetti.classList.add('confetti');
-        confetti.style.left = Math.random() * window.innerWidth + 'px';
-        confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
-        confetti.style.width = 5 + Math.random() * 7 + 'px';
-        confetti.style.height = 8 + Math.random() * 12 + 'px';
-        confetti.style.animationDuration = 2 + Math.random() * 3 + 's';
-        document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 5000);
-    }
-}
+/* Yes Button */
+yesBtn.addEventListener("click", () => {
+    card.innerHTML = `
+        <h1>Sanjida</h1>
+        <p>
+            Thank you for saying yes.<br>
+            
+        </p>
+        <img src="photo.jpeg" id="photo">
+        <p style="margin-top:16px;">
+            Happy Valentine’s Day
+        </p>
+    `;
+});
+</script>
 
-/* Ye*
+</body>
+</html>
