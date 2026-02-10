@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Sanjida</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Playfair Display', serif;
+    overflow: hidden;
+    color: white;
+}
+
+/* Intro Screen with bg1 */
+#intro {
+    position: fixed;
+    inset: 0;
+    background: url('bg1.jpeg') no-repeat center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 10;
+    transition: opacity 1s ease;
+}
+
+#intro p {
+    margin-top: 15px;
+    font-size: 18px;
+    background-color: rgba(0,0,0,0.4);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+/* Main Card Containers */
+.card {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Box 1: blur box with bg1 */
+#box1 {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    width: 90%;
+    max-width: 400px;
+    padding: 28px 22px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    position: relative;
+    display: none;
+}
+
+/* Box 2: photo box with bg2 */
+#box2 {
+    background: url('bg2.jpeg') no-repeat center/cover;
+    background-size: cover;
+    width: 90%;
+    max-width: 400px;
+    padding: 28px 22px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    display: none;
+    flex-direction: column;
+}
+
+/* Headings & Paragraphs */
+h1 {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 26px;
+    font-size: 15px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 10px;
+    font-family: 'Playfair Display', serif;
+}
+
+#yes {
+    background: #9b59b6;
+    color: white;
+    padding: 14px 32px;
+    font-size: 17px;
+}
+
+#no {
+    background: #6c3483;
+    color: white;
+    position: absolute;
+}
+
+/* Photo inside Box2 */
+#photo {
+    width: 100%;
+    max-width: 230px;
+    border-radius: 16px;
+    margin-top: 18px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+/* Confetti Effect */
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+.confetti {
+    position: fixed;
+    top: -20px;
+    width: 6px;
+    height: 10px;
+    z-index: 9999;
+    animation-name: fall;
+    animation-timing-function: linear;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Intro Screen -->
+<div id="intro">
+    <p>Tap to continue</p>
+</div>
+
+<!-- Main Card -->
+<div class="card" id="card">
+
+    <!-- Box 1: Blur background with text and buttons -->
+    <div id="box1">
+        <h1>Hello Babygirl</h1>
+        <p>I have something special to ask you.<br>Will you be my Valentine?</p>
+        <button class="btn" id="yes">Yes</button>
+        <button class="btn" id="no">No</button>
+    </div>
+
+    <!-- Box 2: Photo box with bg2 -->
+    <div id="box2">
+        <h1>Sanjida</h1>
+        <img src="photo.jpg" id="photo">
+        <p style="margin-top:16px;">Happy Valentine’s Day</p>
+    </div>
+
+</div>
+
+<script>
+const intro = document.getElementById("intro");
+const box1 = document.getElementById("box1");
+const box2 = document.getElementById("box2");
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+
+/* Intro Click: fade out to Box1 */
+intro.addEventListener("click", () => {
+    intro.style.opacity = "0";
+    setTimeout(() => {
+        intro.style.display = "none";
+        box1.style.display = "block";
+    }, 1000);
+});
+
+/* No button messages */
+let messages = [
+    "Are you really sure?", "Please think again", "Do not say no yet",
+    "Give me one more chance", "Just press yes", "My heart is breaking",
+    "Still saying no?", "Come on, be mine", "Trust me, press yes",
+    "You know you want to", "Do not break my heart", "I am waiting for you",
+    "Please choose me", "This is destiny", "Say yes for us"
+];
+let index = 0;
+
+/* Move No Button inside box1 */
+function moveNo() {
+    const rect = box1.getBoundingClientRect();
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+    const x = Math.random() * (rect.width - btnWidth);
+    const y = Math.random() * (rect.height - btnHeight);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+    noBtn.innerText = messages[index % messages.length];
+    index++;
+}
+
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("click", moveNo);
+
+/* Confetti Effect */
+function createConfetti() {
+    const confettiCount = 100;
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * window.innerWidth + 'px';
+        confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
+        confetti.style.width = 5 + Math.random() * 7 + 'px';
+        confetti.style.height = 8 + Math.random() * 12 + 'px';
+        confetti.style.animationDuration = 2 + Math.random() * 3 + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 5000);
+    }
+}
+
+/* Yes Button */
+yesBtn.addEventListener("click", () => {
+    box1.style.display = "none";
+    box2.style.display = "flex";
+    createConfetti(); // trigger confetti celebration
+});
+</script>
+
+</body>
+</html>
